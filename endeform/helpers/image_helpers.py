@@ -1,3 +1,7 @@
+#
+# Copyright 2020- IBM Inc. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
 def tiler(img, patch_size, overlap=(0, 0), mask=None):
     """A generator returning patches from `img` and optionally `mask` of specified size and overlap
 

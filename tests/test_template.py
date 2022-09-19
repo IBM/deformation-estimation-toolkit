@@ -1,3 +1,7 @@
+#
+# Copyright 2020- IBM Inc. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
 """
 This is a template test to demonstrate how tests in this project are written
 """

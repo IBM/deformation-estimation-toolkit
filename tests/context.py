@@ -1,8 +1,11 @@
-# Adds the Repo folder explicitly to the path Then imports that stuff that needs to be tested This makes sure the
+#
+# Copyright 2020- IBM Inc. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
 # tests find the module code without requiring the user to add the module path to $PYTHONPATH or similar
 import os
 import sys
-import re 
+import re
 
 # add the main project folder to the path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))

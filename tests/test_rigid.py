@@ -6,7 +6,10 @@ import endeform.interpolation.rigid as rigid
 
 RTOL = 1e-5
 ATOL = 0
-# comparisons check for differences of less than ATOL + RTOL*abs(DESIRED)
+#
+# Copyright 2020- IBM Inc. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
 
 # Some points
 N_points = 20

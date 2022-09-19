@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from scipy.ndimage import convolve1d
 
-from scipy.signal import find_peaks  
+from scipy.signal import find_peaks
 
 
 def mask_morphology(
@@ -136,7 +136,10 @@ def mask_morphology(
     return enlarged_mask.astype("bool")
 
 
-# Green channel-based function
+#
+# Copyright 2020- IBM Inc. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
 
 
 def green_glare_mask(

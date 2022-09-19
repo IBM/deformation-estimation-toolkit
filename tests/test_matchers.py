@@ -3,7 +3,10 @@ import numpy as np
 
 import endeform.matchers.match as matchers
 
-#%%
+#
+# Copyright 2020- IBM Inc. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
 IDENTICAL_REAL_DESCRIPTORS = np.random.randint(0, high=220, size=(30, 128)).astype(
     np.float32
 )

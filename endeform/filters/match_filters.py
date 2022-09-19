@@ -1,4 +1,4 @@
-"""Classes that can be used as the `match_filter` in `Pipelines`. Generally, they need to expose a `filter` method with the 
+"""Classes that can be used as the `match_filter` in `Pipelines`. Generally, they need to expose a `filter` method with the
     signature filter(matches: list of cv2.DMatch, keypoints1: np.array, keypoints2: np.array) -> list of cv2.DMatch
 
     Classes
@@ -11,7 +11,10 @@
         keep only the `N` matches with the smallest `distance` (in feature space, so e.g. for binary descriptors, that
         is the Hamming distance between the descriptors)
 """
-#%%
+#
+# Copyright 2020- IBM Inc. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
 from itertools import compress  # to use boolean indexing with lists
 from operator import attrgetter
 

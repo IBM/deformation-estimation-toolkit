@@ -9,6 +9,9 @@ from .context import TEST_FOLDER_ABSPATH, SAMPLE_DATA_FOLDER
 
 
 #
+# Copyright 2020- IBM Inc. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
 # Plot-related helpers
 #
 def _replace_fixture_abspath(nodename, repsep="_"):

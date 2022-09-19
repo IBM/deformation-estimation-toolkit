@@ -3,12 +3,15 @@ Object detection & description functions and classes
 """
 import cv2
 import numpy as np
-    
+
 from . import DD_BaseClasses as Dbd
 from ..helpers.image_helpers import tiler as _tiler
 
 
-# %% Custom detectors/descriptors
+#
+# Copyright 2020- IBM Inc. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
 
 # %%  Wrappers around openCV detectors/descriptors
 class cv2LATCH(Dbd.BaseBinaryDescriptor):

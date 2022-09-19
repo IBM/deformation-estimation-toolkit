@@ -1,3 +1,7 @@
+#
+# Copyright 2020- IBM Inc. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
 from abc import abstractmethod, ABCMeta
 
 
@@ -41,7 +45,7 @@ class BaseDetector(DDBase, metaclass=ABCMeta):
 
 class BaseDescriptor(DDBase, metaclass=ABCMeta):
     _binary = False
-    """ double underscore would make this "private" but also mangle it during inheritance, 
+    """ double underscore would make this "private" but also mangle it during inheritance,
                      so we'll go with a single _ """
 
     def isbinarydescriptor(self):
