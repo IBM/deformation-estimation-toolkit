@@ -1,4 +1,7 @@
-#%%
+#
+# Copyright 2020- IBM Inc. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
 import os, warnings
 
 import pytest

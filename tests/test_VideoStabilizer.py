@@ -12,7 +12,10 @@ from endeform.matchers.match import BruteForceMatcher
 import endeform.interpolation.rigid as rigid
 
 VIDEO_PATH = os.path.join(SAMPLE_DATA_FOLDER, 'synthetic_example.mp4')
-# output 
+#
+# Copyright 2020- IBM Inc. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
 OUTPUT_PATH = Template('figures/vidstab_test_pipeline_${pipeline}_layout_${layout}_${panel}')
 START = 0; END = 1.0
 FPS = 5  #  synthetic vid is at 5FPS

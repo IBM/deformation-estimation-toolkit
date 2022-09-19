@@ -3,7 +3,10 @@ import numpy as np
 import endeform.helpers.plot_helpers as ph
 
 
-#%%
+#
+# Copyright 2020- IBM Inc. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
 def _test_iterable(X):
     # Returns True if `iter(X)` doesn't throw an error, else False
     try:

@@ -33,7 +33,7 @@ class BruteForceMatcher(Dmb.BaseMatcher):
             descriptors2[match.trainIdx,:].
             match.distance is the distance between the matches (in descriptor space!)
             Note: OpenCV 4.5.4 replaced most lists with tuples, this method casts to
-            list explicitly. 
+            list explicitly.
         """
 
         # Could check here whether normType and descriptors.dtype are
@@ -41,7 +41,10 @@ class BruteForceMatcher(Dmb.BaseMatcher):
         return list(self.matcher.match(descriptors1, descriptors2, mask))
 
 
-# Subclass for binary descriptors
+#
+# Copyright 2020- IBM Inc. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
 class BruteForceMatcherBinary(BruteForceMatcher):
     """A wrapper for cv2.BFMatcher using normType=cv2.NORM_HAMMING, appropriate for binary
     descriptors
@@ -50,7 +53,7 @@ class BruteForceMatcherBinary(BruteForceMatcher):
     def __init__self(self, *args, **kwargs):
         if kwargs.get("normType", cv2.NORM_HAMMING) is not cv2.NORM_HAMMING:
             raise RuntimeError(
-                """Do not set normType manually when using BruteForceMatcherBinary, 
+                """Do not set normType manually when using BruteForceMatcherBinary,
                             it is automatically set to cv2.NORM_HAMMING"""
             )
         kwargs["normType"] = cv2.NORM_HAMMING
@@ -117,7 +120,7 @@ class LoweRatioMatcherBinary(LoweRatioMatcher):
     def __init__(self, *args, **kwargs):
         if kwargs.get("normType", cv2.NORM_HAMMING) is not cv2.NORM_HAMMING:
             warn(
-                """Setting normType to cv2.NORM_HAMMING for BruteForceMatcherBinary 
+                """Setting normType to cv2.NORM_HAMMING for BruteForceMatcherBinary
                             """
             )
         """

@@ -27,7 +27,10 @@ def find_lower_edge_ind(X, xgrid):
     return Xind
 
 
-#%%
+#
+# Copyright 2020- IBM Inc. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
 def bilin_interp(Y, X, ygrid, xgrid, Vgrid, extrapolation_value=None, extrapolation_warning=False):
     """
     Performs bilinear interpolation of data given on a _rectangular_ grid
@@ -45,7 +48,7 @@ def bilin_interp(Y, X, ygrid, xgrid, Vgrid, extrapolation_value=None, extrapolat
     Vgrid : array of shape (ny, nx, n_channels)
         The data given on the above grid
     extrapolation_value : None or scalar or np.array of shape (n_channels)
-        If not None, then extrapolated values (i.e. where (X[i,j], Y[i,j]) falls outside the grid) are filled 
+        If not None, then extrapolated values (i.e. where (X[i,j], Y[i,j]) falls outside the grid) are filled
         with this value instead of extrapolating.  If scalar, then all channels of `V` are filled with the values.
     extrapolation_warning : bool, optional
         If True, generate a warning when extrapolating. By default False.

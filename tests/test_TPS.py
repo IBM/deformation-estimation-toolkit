@@ -3,7 +3,10 @@ import pytest
 
 import endeform.interpolation.TPS as TPS
 
-# Some knots
+#
+# Copyright 2020- IBM Inc. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
 Nx, Ny = (4, 5)
 N = Nx * Ny
 M = 10  #  x and y limit

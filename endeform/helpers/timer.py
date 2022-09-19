@@ -8,7 +8,10 @@ from typing import TYPE_CHECKING, Any, Callable, Dict, List
 
 import math
 
-# Annotate generic UserDict
+#
+# Copyright 2020- IBM Inc. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
 if TYPE_CHECKING:
     UserDict = collections.UserDict[str, float]  # pragma: no cover
 else:

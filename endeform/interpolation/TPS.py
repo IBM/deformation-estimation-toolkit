@@ -1,7 +1,10 @@
 import numpy as np
 from scipy.spatial.distance import cdist, pdist, squareform
 
-# from scipy.linalg import solve as linsolve
+#
+# Copyright 2020- IBM Inc. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
 from .I_BaseClasses import BaseInterpolator
 from ..helpers.utils import extract_submatrix
 

@@ -1,6 +1,9 @@
 import numpy as np
 
-# %%
+#
+# Copyright 2020- IBM Inc. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
 from endeform.reflections import glare_detection as gd
 
 

@@ -4,7 +4,10 @@ import matplotlib.pyplot as plt
 import cv2
 
 from .IO import ThreadedVideoStream as TVS
-# from .helpers import plot_helpers as ph
+#
+# Copyright 2020- IBM Inc. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
 from .pipeline import Pipeline
 from .helpers import utils
 from .detectors_descriptors import detect as ddd
@@ -29,11 +32,11 @@ def overlay_train_points(img, match_list, keypoints):
     cv2.putText(img0, f'#matches={len(match_list)}', (300,350), cv2.FONT_HERSHEY_COMPLEX_SMALL, .8, (0,255,0))
     return img0
 
-def assemble_output_frame6(vis1, grey1, vis1_warped, grey1_warped, 
+def assemble_output_frame6(vis1, grey1, vis1_warped, grey1_warped,
             vis0, initial_keypoints, last_matches, last_keypoints):
     """Note: all images are assumed to be 3-channel, so make sure they are before calling"""
     return    np.vstack((
-        np.hstack( (vis1_warped, vis1, 
+        np.hstack( (vis1_warped, vis1,
                    overlay_query_points(vis0, last_matches, initial_keypoints)
                    ) ),
         np.hstack( (grey1_warped, grey1,
@@ -41,17 +44,17 @@ def assemble_output_frame6(vis1, grey1, vis1_warped, grey1_warped,
                    ) )
         ))
 
-def assemble_output_frame9(vis1, grey1, vis1_warped, grey1_warped, 
+def assemble_output_frame9(vis1, grey1, vis1_warped, grey1_warped,
             vis0, initial_keypoints, last_matches, last_keypoints, img_warped_grid):
     """Note: all images are assumed to be 3-channel, so make sure they are before calling"""
     h,w = vis1.shape[:2]
     return    np.vstack((
-        assemble_output_frame6(vis1, grey1, vis1_warped, grey1_warped, 
+        assemble_output_frame6(vis1, grey1, vis1_warped, grey1_warped,
             vis0, initial_keypoints, last_matches, last_keypoints),
-        np.hstack( (np.zeros((h, 2*w, 3), dtype=np.uint8), 
+        np.hstack( (np.zeros((h, 2*w, 3), dtype=np.uint8),
                  img_warped_grid[:,:,::-1])
-                    )    
-        ))  
+                    )
+        ))
 
 def assemble_output_frame2h(vis1, vis1_warped ):
     """Note: all images are assumed to be 3-channel, so make sure they are before calling"""
@@ -65,7 +68,7 @@ def assemble_output_frame4(vis1, grey1, vis1_warped, grey1_warped):
     """Note: all images are assumed to be 3-channel, so make sure they are before calling"""
     return np.vstack((
         np.hstack( (vis1_warped, vis1 ) ),
-        np.hstack( (grey1_warped, grey1))   
+        np.hstack( (grey1_warped, grey1))
                     ))
 
 # %% Video stabilizer
@@ -83,7 +86,7 @@ class VideoStabilizer:
         stats=True)
     >> vs.loop()
 
-    which stabilize the first 10 seconds of the video. A video will be stored as 
+    which stabilize the first 10 seconds of the video. A video will be stored as
     'sample_data/synthetic_example.mp4' and the results will be available as numpy arrays
     in 'video_stabilized_data.npz'.
 
@@ -117,20 +120,20 @@ class VideoStabilizer:
             Maximum amout of frames to be processed, by default None. If both `max_frames` and `end` are given, `max_frames` takes precedence.
         FPS : float, optional
             It is difficult to obtain the FPS of a video from the video file directly, you
-            can provide it here explicitly. It is used to convert `end` to a number of 
+            can provide it here explicitly. It is used to convert `end` to a number of
             frames, and to set the FPS of the resulting video; by default 29.95
         min_matches : int, optional
             Processing will stop, if the current frame has less than `min_matches` with the
             initial frame, by default 15
         panel : tuple or list of (left,top,width,height), optional
             If specified, the video will be cropped to the corresponding rectangle before
-            processing. That is helpful if the video is a composite view, or there are 
-            timestamps or similar metadata around the margins. If None, the whole video 
+            processing. That is helpful if the video is a composite view, or there are
+            timestamps or similar metadata around the margins. If None, the whole video
             is processed, by default None
         panel2 : tuple or list of (left, top, width, height, channel(s) ), optional
-            If speficied, this panel is stabilized using the deformation computed on the 
+            If speficied, this panel is stabilized using the deformation computed on the
             first panel. The data of this panel, stabilized, is stored as numpy files. If
-            None, it's taken to be the same as the first panel, and if False, it is not 
+            None, it's taken to be the same as the first panel, and if False, it is not
             used at all (no numpy data will be stored in this case), by default None.
         store_numpy : bool, optional
             Whether to store the resulting stabilized panel2 as a numpy file, by default True
@@ -138,7 +141,7 @@ class VideoStabilizer:
             The filename for the numpy file. By default, it is be the name of the video
             + `_stabilized_data.npz`.
         video_outfile : str, optional
-            The name of the produced output video, by default the name of the video + 
+            The name of the produced output video, by default the name of the video +
             `_stabilized.mp4`.
         output_layout : str in {1,2h,2v,4,6,9}, optional
             The layout of the produced video, by default '2h'.
@@ -153,16 +156,16 @@ class VideoStabilizer:
             '1'  :  [  cF[t] ]
 
             '2h' :  [ F[t]  cF[t]  ]
-            
+
             '2v' :  [ cF[t]  ]
                     [ cF2[t] ]
-            
+
             '4'  :  [ cF[t]   F[t]  ]
                     [ cF2[t]  F2[t] ]
-            
+
             '6'  :  [ cF[t]   F[t]  kF0[t] ]
                     [ cF2[t]  F2[t]  kF[t] ]
-            
+
             '9'  :  [ cF[t]   F[t]  kF0[t] ]
                     [ cF2[t]  F2[t]  kF[t] ]
                     [                 G[t] ]
@@ -212,7 +215,7 @@ class VideoStabilizer:
 
     def __setup(self):
         """ Default values where needed, and initialization steps."""
-        
+
         # -- Video Stream
         # Figuring out what transform is needed on the read frames
         if self.panel is None:
@@ -242,7 +245,7 @@ class VideoStabilizer:
             if self.end is None:
                 max_frames = None
             else:
-                max_frames = int( (self.end - self.start)*self.FPS/(1+self.skip_frames) ) 
+                max_frames = int( (self.end - self.start)*self.FPS/(1+self.skip_frames) )
         else:
             max_frames = self.max_frames
         self.max_frames = max_frames
@@ -261,7 +264,7 @@ class VideoStabilizer:
                                 f'a valid video? I have {self.video_path}')
         self.initial_frame = vis00
         self.initial_frame2 = grey00 #  could be None, and is likely not needed
-        h,w = vis00.shape[:-1] 
+        h,w = vis00.shape[:-1]
         self.w, self.h = (w,h)
 
         # -- set up the output video
@@ -305,7 +308,7 @@ class VideoStabilizer:
             self._warped_grid = False
         else:
             raise ValueError(f"Unknown output layout {self.output_layout}")
-        
+
         self._writer = cv2.VideoWriter( self.video_outfile,
                 cv2.VideoWriter_fourcc(*'avc1'),
                 self.FPS//(self.skip_frames+1), self._output_frame_size, True)
@@ -341,7 +344,7 @@ class VideoStabilizer:
         if self.panel2 is False and self.store_numpy:
             warnings.warn('Storing results on disk is only possible if panel2 is '
             'specified')
-            self.store_numpy = False 
+            self.store_numpy = False
         if self.store_numpy:
             if self._c2 == 1:
                 self.G = np.empty((h,w,self.max_frames), dtype=np.uint8)
@@ -366,7 +369,7 @@ class VideoStabilizer:
 
         Returns
         -------
-        G : (h,w,N,c) or (h,w,N) np.array of uint8 
+        G : (h,w,N,c) or (h,w,N) np.array of uint8
             The values extracted from the stabilized `panel2`. N is the number of frames
             processed, and c is the number of channels. If c==1, the singleton dimension
             is removed.
@@ -378,13 +381,13 @@ class VideoStabilizer:
         num_matches = [0] if self.max_frames is None else np.zeros(self.max_frames, dtype=int)
         # matched_indices = [[]] if self.max_frames is None else \
         #                         [ [] for i in range(self.max_frames) ]
-        
+
         if stats: print('[INFO] Starting loop')
         while self._cap.isNotDone():
             # acquire next frame
             vis, grey = self._cap.read()
 
-            if self.panel2 is None: grey = vis 
+            if self.panel2 is None: grey = vis
             # estimate next deformation
             self.pipeline.step(vis)
             if len(self.pipeline._last_matches)<self.min_matches:
@@ -392,7 +395,7 @@ class VideoStabilizer:
                 warnings.warn(f'Stopping loop prematurely because frame {frame_ctr+1} '
                     f'has only {len(self.pipeline._last_matches)} matches, less than '
                     f' `min_matches` ({self.min_matches}).')
-                break            
+                break
             frame_ctr+=1
 
             # record some stats
@@ -402,13 +405,13 @@ class VideoStabilizer:
             else:
                 num_matches[frame_ctr] = len(self.pipeline._last_matches)
                 # matched_indices[frame_ctr] = [m.queryIdx for m in self.pipeline._last_matches]
-            
+
             vis_warped, grey_warped, warped_grid = self._warp_imgs(vis,
                 (vis if self.panel2 is None else
                  (None if self.panel2 is False else grey)
                 ),
                 self._warped_grid)
-            
+
             output_frame = self.__assemble_output(
                 vis, grey, vis_warped, grey_warped, warped_grid
                 ).astype(np.uint8)
@@ -436,7 +439,7 @@ class VideoStabilizer:
                     f'{ "inf" if self.max_frames is None else self.max_frames }. '
                     f'FPS: {60/(time.perf_counter()-t0)}.')
                 t0 = time.perf_counter()
-            
+
         # Truncate to the number of actually processed frames
         self.G = self.G[:,:,:frame_ctr,...]
         self.G_valid = self.G_valid[:,:,:frame_ctr]
@@ -448,7 +451,7 @@ class VideoStabilizer:
                 num_matches=num_matches, offset=self.start,
                 skip_frames=self.skip_frames, FPS=self.FPS)
 
-        if stats: print(f'[INFO] Done. FPS: {frame_ctr/(time.perf_counter()-t00)}.')        
+        if stats: print(f'[INFO] Done. FPS: {frame_ctr/(time.perf_counter()-t00)}.')
         self._writer.release()
         self._cap.stop()
         if return_arrays:
@@ -458,7 +461,7 @@ class VideoStabilizer:
 
     def _warp_imgs(self, img1, img2=None, warped_grid=False):
         """Warp all the required images"""
-        Z = self.pipeline.eval(self.out_grid).reshape((self.w, self.h, 2)) 
+        Z = self.pipeline.eval(self.out_grid).reshape((self.w, self.h, 2))
         img_warped_stacked = utils.bilin_interp(
                 Z[:,:,1].T, Z[:,:,0].T, np.arange(self.h), np.arange(self.w),
                 np.dstack( (img1,) + (() if img2 is None else (img2,)) ),
@@ -480,34 +483,34 @@ class VideoStabilizer:
                     None if img2 is None else img_warped_stacked[:,:,3:].squeeze(),
                     img_warped_grid
             )
-        
+
     def __assemble_output_1(self, vis1, grey1, vis1_warped, grey1_warped, warped_grid):
         return vis1_warped
-    
+
     def __assemble_output_2h(self, vis1, grey1, vis1_warped, grey1_warped, warped_grid):
         return assemble_output_frame2h(vis1, vis1_warped)
 
     def __assemble_output_2v(self, vis1, grey1, vis1_warped, grey1_warped, warped_grid):
-        return assemble_output_frame2v(vis1_warped, 
+        return assemble_output_frame2v(vis1_warped,
             (grey1_warped if self._c2==3 else
             np.broadcast_to(grey1_warped.squeeze()[...,np.newaxis], (self.h, self.w, 3)) )
-        )        
-    
+        )
+
     def __assemble_output_4(self,  vis1, grey1, vis1_warped, grey1_warped, warped_grid):
-        return assemble_output_frame4(vis1, 
+        return assemble_output_frame4(vis1,
             (grey1 if self._c2==3 else
             np.broadcast_to(grey1.squeeze()[...,np.newaxis], (self.h, self.w, 3))),
-            vis1_warped, 
+            vis1_warped,
             self.__replace_NaN_with_color(
                 (grey1_warped if self._c2==3 else
         np.broadcast_to(grey1_warped.squeeze()[...,np.newaxis], (self.h, self.w, 3))
                 ),
-                color=self.extrapolation_color    
+                color=self.extrapolation_color
                                         )
         )
-    
+
     def __assemble_output_6(self,  vis1, grey1, vis1_warped, grey1_warped, warped_grid):
-        return assemble_output_frame6(  vis1, 
+        return assemble_output_frame6(  vis1,
             (grey1 if self._c2==3 else
             np.broadcast_to(grey1.squeeze()[...,np.newaxis], (self.h, self.w, 3))),
             vis1_warped,
@@ -515,14 +518,14 @@ class VideoStabilizer:
             np.broadcast_to(grey1_warped.squeeze()[...,np.newaxis], (self.h, self.w, 3))),
             self.initial_frame, self.pipeline.initial_keypoints,
             self.pipeline._last_matches, self.pipeline._last_keypoints)
-    
+
     def __assemble_output_9(self,  vis1, grey1, vis1_warped, grey1_warped, warped_grid):
-        return assemble_output_frame9( vis1, 
+        return assemble_output_frame9( vis1,
             (grey1 if self._c2==3 else
             np.broadcast_to(grey1.squeeze()[...,np.newaxis], (self.h, self.w, 3))),
             vis1_warped,
             (grey1_warped if self._c2==3 else
-            np.broadcast_to(grey1_warped.squeeze()[...,np.newaxis], (self.h, self.w, 3))), 
+            np.broadcast_to(grey1_warped.squeeze()[...,np.newaxis], (self.h, self.w, 3))),
             self.initial_frame, self.pipeline.initial_keypoints,
             self.pipeline._last_matches, self.pipeline._last_keypoints, warped_grid)
 
@@ -531,7 +534,7 @@ class VideoStabilizer:
         equals NaN by `color`"""
         img2 = np.zeros_like(img)
         img2[:,:,:] = np.array(self.extrapolation_color).reshape((1,1,3))
-        img2[ np.all(~np.isnan(img), axis=2), ... ] = img[ np.all(~np.isnan(img), axis=2), ... ] 
+        img2[ np.all(~np.isnan(img), axis=2), ... ] = img[ np.all(~np.isnan(img), axis=2), ... ]
         return img2
 
 
