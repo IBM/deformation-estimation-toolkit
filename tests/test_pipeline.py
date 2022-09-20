@@ -1,3 +1,7 @@
+#
+# Copyright 2020- IBM Inc. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
 import os
 
 import cv2
@@ -21,10 +25,7 @@ except ImportError:
 DETECTORS = (ddd.cv2AKAZE(threshold=0.0001),) + \
     ( (xdetect.PatchORB(),xdetect.PyramidORB() ) if XDETECT_AVAILABLE else ()
     )
-#
-# Copyright 2020- IBM Inc. All rights reserved
-# SPDX-License-Identifier: Apache-2.0
-#
+# AKAZE with default parameters only around 10 keypoints
 #  , ddd.cv2SIFT() -> SIFT does funny stuff with octave ("packs" it), and also has negative octaves (which is fine, but ORB can't deal with it)
 DESCRIPTORS = (ddd.cv2LATCH(), ) + \
     ( (xdetect.PatchORB(),xdetect.PyramidORB() ) if XDETECT_AVAILABLE else ()

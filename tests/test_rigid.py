@@ -1,15 +1,16 @@
+#
+# Copyright 2020- IBM Inc. All rights reserved
+# SPDX-License-Identifier: Apache-2.0
+#
 import numpy as np
 import pytest
 from cv2 import perspectiveTransform
 
 import endeform.interpolation.rigid as rigid
 
+# comparisons check for differences of less than ATOL + RTOL*abs(DESIRED)
 RTOL = 1e-5
 ATOL = 0
-#
-# Copyright 2020- IBM Inc. All rights reserved
-# SPDX-License-Identifier: Apache-2.0
-#
 
 # Some points
 N_points = 20

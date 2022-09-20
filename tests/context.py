@@ -2,6 +2,7 @@
 # Copyright 2020- IBM Inc. All rights reserved
 # SPDX-License-Identifier: Apache-2.0
 #
+# Adds the Repo folder explicitly to the path Then imports that stuff that needs to be tested This makes sure the
 # tests find the module code without requiring the user to add the module path to $PYTHONPATH or similar
 import os
 import sys
