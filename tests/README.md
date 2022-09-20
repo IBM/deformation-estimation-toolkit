@@ -34,6 +34,8 @@ Put all additional acrobatics concerning absolute paths etc in the `context.py` 
 from .context import TEST_FOLDER_ABSPATH
 ```
 
+and a helper function `extract_class_name(param)` which can be useful in generating names for parametrized tests.
+
 Note that the tests are not intended to be run as scripts, so things like
 
 ```bash
@@ -52,6 +54,10 @@ def test_plots(savefig):
 ```
 
 That will store the output figures as png files in `tests/figures`.
+
+## Slow tests
+In `pytest.ini`, the `slow` marker is defined, and the default command line option `-m "not slow"` is specified. That means that 
+tests marked as slow (with `@pytest.mark.slow`) are not run by default, but only when invoking them by specifying `-m slow`.
 
 ## Examples
 See [the test template file](test_template.py) for example usage.
