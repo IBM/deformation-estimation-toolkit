@@ -10,6 +10,21 @@ from threading import Thread
 import cv2
 
 class FileVideoStream:
+    """
+    Attributes:
+    ----------
+    last_read_timestamp : float
+        timestamp (as reported by `time.perf_counter()`) of the last `read()`.
+        Treat with caution though.
+        Before any frames were read, the value is -999.
+    Methods:
+    -------
+    read :
+    grab :
+    release :
+    get(property) :
+        Get `property` from the underlying OpenCV VideoCapture object.
+    """
     def __init__(self, filename, offset_ms=0, cap_backend=None):
         if cap_backend == None:
             self.__cap = cv2.VideoCapture(filename)
@@ -17,8 +32,10 @@ class FileVideoStream:
             self.__cap = cv2.VideoCapture(filename, cap_backend)
         # skip ahead
         self.__cap.set(cv2.CAP_PROP_POS_MSEC, offset_ms)
+        self.last_read_timestamp = -999.
 
     def read(self):
+        self.last_read_timestamp = time.perf_counter()
         return self.__cap.read()
 
     def grab(self):
@@ -27,6 +44,65 @@ class FileVideoStream:
     def release(self):
         return self.__cap.release()
 
+    def get(self, cv2_PROP_CONST):
+        return self.__cap.get(cv2_PROP_CONST)
+
+class CamVideoStream():
+    """
+    Attributes:
+    ----------
+    last_read_timestamp : float
+        timestamp (as reported by `time.perf_counter()`) of the last `read()`.
+        Treat with caution though.
+        Before any frames were read, the value is -999.
+    FPS : 
+        Setting the FPS explicitly in the constructor simply forces the capture loop to wait 
+        until 1/FPS has passed since the last read() before reading again.
+        This is quite inexact, since it also depends on the frame rate the camera is running
+        at, which might be hard to figure out and impossible to change.
+        NOTE: The `grab()` calls are not affected by this wait time.
+    Methods:
+    -------
+    read :
+    grab :
+    release :
+    get(property) :
+        Get `property` from the underlying OpenCV VideoCapture object.
+    Examples
+    --------
+    """
+    def __init__(self, cam_id=0, cap_backend=None, FPS=None):
+        """Setting the FPS explicitly simply forces the capture loop to wait until 1/FPS
+        has passed since the last read() before reading again.
+        This is quite inexact, since it also depends on the frame rate the camera is running
+        at, which might be hard to figure out and impossible to change.
+        NOTE: The `grab()` calls are not affected by this wait time."""        
+        if cap_backend == None:
+            self.__cap = cv2.VideoCapture(cam_id)
+        else:  #  e.g. `cv2.VideoCapture(fname, cv2.CAP_FFMPEG)` if backend to be enforced
+            self.__cap = cv2.VideoCapture(cam_id+cap_backend)
+        if FPS is not None:
+            self.__cap.set(cv2.CAP_PROP_FPS, FPS)
+            self.__Ts = 1/FPS
+        self.FPS = FPS
+        self.last_read_timestamp = -999.
+
+    def read(self):
+        if self.FPS is not None:
+            t00 = time.perf_counter()
+            while t00 - self.last_read_timestamp < self.__Ts:
+                t00 = time.perf_counter()
+        self.last_read_timestamp = time.perf_counter()
+        return self.__cap.read()
+
+    def grab(self):
+        return self.__cap.grab()
+
+    def release(self):
+        return self.__cap.release()
+
+    def get(self, cv2_PROP_CONST):
+        return self.__cap.get(cv2_PROP_CONST)   
 
 class VideoStream:
     """
@@ -96,7 +172,6 @@ class VideoStream:
         transform=None,
         queue_size=16,
         max_frames=None,
-        cap_backend=None,
         sleep_time_if_full=0.1,
         timeout_if_empty=1,
         default_if_empty=None,
@@ -131,7 +206,7 @@ class VideoStream:
         self.skip_frames = skip_frames
         self.max_frames = max_frames
         self.read_frames = 0
-        self.__cap = stream
+        self._cap = stream
 
         # open the queue
         self.Q = Queue(maxsize=queue_size)
@@ -162,7 +237,7 @@ class VideoStream:
         """This function is executed inside the thread"""
         while not self.__stopped:
             if not self.Q.full():  #  True:  #
-                ret, frame = self.__cap.read()
+                ret, frame = self._cap.read()
                 self.read_frames += 1
 
                 if not ret:
@@ -189,7 +264,7 @@ class VideoStream:
                     break
                 # skip frames (if any)
                 for ii in range(self.skip_frames):
-                    ret = self.__cap.grab()
+                    ret = self._cap.grab()
                 if not ret:
                     #                    raise RuntimeError()
                     print(
@@ -207,7 +282,7 @@ class VideoStream:
                     self.read_frames, self.max_frames
                 )
             )
-        self.__cap.release()
+        self._cap.release()
 
     def read(self, timeout=None):
         """Removes the oldest frame from the queue and returns it

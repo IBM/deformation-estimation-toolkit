@@ -58,7 +58,7 @@ NIR = G.astype(float)
 NIR[~np.all(G_valid, axis=2)] = np.nan
 # plot
 plt.imshow(np.nanmax(NIR, axis=2), cmap='Reds')
-plt.title('Maximal intentities')
+plt.title('Maximal intensities')
 ```
 ![Output image](./sample_data/README_output_image0.png)  
 There will also be a file `sample_data/synthetic_example_stabilized.mp4`, which is a video visualizing the stabilization, and another one `sample_data/synthetic_example_stabilized_data.npz`, which contains `G, G_valid` and a few more arrays of interest.
