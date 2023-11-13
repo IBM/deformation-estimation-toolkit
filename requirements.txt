@@ -1,10 +1,7 @@
 # This is a manually generated requirements file, likely quite incomplete
 opencv-contrib-python>=4.4.0
 numpy>=1.22
-scipy~=1.7.1
-matplotlib~=3.4.3
-pytest~=6.2.1
-
-opencv-python~=4.5.1.48
-typing~=3.7.4.3
+scipy>=1.7.1
+matplotlib>=3.4.3
+pytest>=6.2.1
 setuptools>=65.5.1

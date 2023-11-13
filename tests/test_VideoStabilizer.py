@@ -16,7 +16,7 @@ from endeform.matchers.match import BruteForceMatcher
 import endeform.interpolation.rigid as rigid
 
 VIDEO_PATH = os.path.join(SAMPLE_DATA_FOLDER, 'synthetic_example.mp4')
-WEBCAM_ID = 1  #  THIS COULD BE DIFFERENT ON EVERY SYSTEM, MAKE SURE THIS WEBCAM EXISTS
+WEBCAM_ID = 0  #  THIS COULD BE DIFFERENT ON EVERY SYSTEM, MAKE SURE THIS WEBCAM EXISTS
 #NOTE: ALSO MAKE SURE that the webcam is seeing something useful, and not just a solid
 # color or so. It will cut out PANEL from the full field of view.
 # (which is purely my laziness, else I'd have to reparametrize the test again to make 
